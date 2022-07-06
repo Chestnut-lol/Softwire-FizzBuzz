@@ -54,28 +54,28 @@ namespace FizzBuzz
     {
         static int GetMaxNum()
         {
-            int MaxNum = Utilities.GetIntInput("Welcome! Please specify maximum number: ");
+            int maxNum = Utilities.GetIntInput("Welcome! Please specify maximum number: ");
             Console.WriteLine(Utilities.BREAKLINE);
-            return MaxNum;
+            return maxNum;
         }
         static void Main(string[] args)
         {
-            int MaxNum = GetMaxNum();
+            int maxNum = GetMaxNum();
             
             // ======================================================
             // Comment out to run FizzBuzzFullVersion
             // ======================================================
-            int divisor_fizz = FizzBuzzFullVersion.Get_number("fizz");
+            /*int divisor_fizz = FizzBuzzFullVersion.Get_number("fizz");
             int divisor_buzz = FizzBuzzFullVersion.Get_number("buzz");
             int divisor_bang = FizzBuzzFullVersion.Get_number("bang");
             int divisor_bong = FizzBuzzFullVersion.Get_number("bong");
             int divisor_fezz = FizzBuzzFullVersion.Get_number("fezz");
             int divisor_reverse = FizzBuzzFullVersion.Get_number("reverse");
-            for (int i = 1; i < MaxNum + 1; i++)
+            for (int i = 1; i < maxNum + 1; i++)
             {
-                Console.WriteLine(FizzBuzzFullVersion.run(i, divisor_fizz, divisor_buzz, divisor_bang, divisor_bong,
+                Console.WriteLine(FizzBuzzFullVersion.Run(i, divisor_fizz, divisor_buzz, divisor_bang, divisor_bong,
                     divisor_fezz, divisor_reverse));
-            }
+            }*/
             
             // =======================================================
             // Comment out to run IEnumerator
@@ -91,13 +91,43 @@ namespace FizzBuzz
             // =======================================================
             // Comment out to run FizzBuzzSimpleVersion
             // ========================================================
-            /*for (int i = 1; i < MaxNum + 1; i++)
+            /*for (int i = 1; i < maxNum + 1; i++)
             {
                 Console.WriteLine(FizzBuzzSimpleVersion.run(i));
             }*/
+            
+            // =======================================================
+            // Comment out to run OneLiner
+            // ========================================================
+            OneLiner.Run(maxNum);
         }
     }
 
+    class OneLiner
+    {
+        public static void Run(int maxNum)
+        {
+            var results = Enumerable.Range(1, maxNum + 1)
+                .Select(
+                    num => ((num % 3 == 0) && (num % 5 != 0))
+                        ? "Fizz"
+                        : num.ToString())
+                .Select(
+                    numstr => ((int.TryParse(numstr, out int num) && (num % 5 == 0) && (num % 3 != 0)))
+                        ? "Buzz"
+                        : numstr)
+                .Select(
+                    numstr => ((int.TryParse(numstr, out int num) && (num % 5 == 0) && (num % 3 == 0)))
+                        ? "FizzBuzz"
+                        : numstr);
+            foreach (var res in results)
+            {
+                Console.WriteLine(res);
+            }
+        }
+        
+    }
+    
     class FizzBuzzSimpleVersion
     {
         private const int divisor_fizz = 3;
@@ -121,7 +151,7 @@ namespace FizzBuzz
             return res;
         }
 
-        public static string run(int i)
+        public static string Run(int i)
         {
             string ans;
             if ((i % 3 == 0) || (i % 5 == 0))
@@ -180,7 +210,7 @@ namespace FizzBuzz
             return ans;
         }
 
-        public static string run(int i,
+        public static string Run(int i,
             int divisor_fizz,
             int divisor_buzz,
             int divisor_bang,
@@ -272,7 +302,7 @@ namespace FizzBuzz
                 int divisor_bong = 11;//Get_number("bong");
                 int divisor_fezz = 13;//Get_number("fezz");
                 int divisor_reverse = 17;//Get_number("reverse");
-                _answers[i] = FizzBuzzFullVersion.run(i,
+                _answers[i] = FizzBuzzFullVersion.Run(i,
                     divisor_fizz,
                     divisor_buzz,
                     divisor_bang,
